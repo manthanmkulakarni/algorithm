@@ -2,7 +2,6 @@
 #include<vector>
 #include<fstream>
 #include<time.h>
-#include<algorithm>
 
 using namespace std;
 
@@ -11,52 +10,72 @@ class BinarySearch
 private:
 	vector<int> data;
 public:
-	BinarySearch();
+	BinarySearch(){}
+	void getcount();
+	int search(int);
 	
-	int search(int key){
-		vector<int>::iterator i=data.begin();
-		int index;
-		for(index=0;i!=data.end();i++,index++)
-		{
-			
-		}
-		if(i!=data.end())
-		return index;
-		
-		else
-		return -1;
-	}
-
+	
 };
 
-BinarySearch::BinarySearch(){
+void BinarySearch::getcount(){
 		ifstream input("sortednumber.txt");
+		ifstream inputkey("key.txt");
 		ofstream timefile("bsearchtime.txt");
 		int temp,t;
 		
-		for(int i=10;i<10001;i=i+100)
+		for(int i=10;i<100001;i=i+1000)
 		{
-			int j=0;
 			
-			for(;j<=i;j++)
+			for(int j=0;j<=i;j++)
 			{
 				input>>temp;
 				data.push_back(temp);
-				
-				
 			}
+			//getting key element to search
+			inputkey>>temp;
+			
+			
 			t=search(temp);
-			timefile<<i<<" "<<j<<"\n";
+			
+			timefile<<i<<" "<<t<<"\n";
 			data.clear();
 			
 		}
 
 	}
 
+int BinarySearch::search(int key){
+		
+		int index=0,start=0,end;
+
+		int size=data.size();
+		for(index=0,start=0,end=size;start<end-1;index++)
+		{
+			
+			
+			if(data[size]==key){break;}
+
+			else if(data[size]<key)
+			{
+				start+=size/2;
+				
+			}
+			else
+			{
+				end=size;
+			}
+			
+			size=end-start;
+			
+
+		}
+	return index;		
+}
 
 int main(){
-BinarySearch obj;
 
+BinarySearch obj;
+obj.getcount();
 
 return 0;
 }
